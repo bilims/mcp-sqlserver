@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "mcp-sqlserver": {
+      "command": "node",
+      "args": ["/Users/onur/Projects/MCP/dist/index.js"],
+      "env": {
+        "SQLSERVER_HOST": "your-sql-server-host",
+        "SQLSERVER_PORT": "1433",
+        "SQLSERVER_DATABASE": "your-database-name",
+        "SQLSERVER_USERNAME": "your-username",
+        "SQLSERVER_PASSWORD": "your-password",
+        "SQLSERVER_ENCRYPT": "true",
+        "SQLSERVER_TRUST_SERVER_CERTIFICATE": "false"
+      }
+    }
+  }
+}
