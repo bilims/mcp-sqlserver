@@ -1,5 +1,5 @@
 {
-  "name": "mcp-sqlserver",
+  "name": "@bilims/mcp-sqlserver",
   "version": "1.1.0",
   "description": "MCP Server for Microsoft SQL Server with CRUD operations and data analysis capabilities",
   "main": "dist/index.js",
@@ -10,17 +10,38 @@
     "start": "node dist/index.js",
     "test": "jest",
     "lint": "eslint src/**/*.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "mcp",
     "sql-server",
     "database",
     "crud",
-    "ai"
+    "ai",
+    "model-context-protocol",
+    "claude"
   ],
-  "author": "",
-  "license": "MIT",
+  "author": "Bilims",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bilims/mcp-sqlserver.git"
+  },
+  "homepage": "https://github.com/bilims/mcp-sqlserver",
+  "bugs": {
+    "url": "https://github.com/bilims/mcp-sqlserver/issues"
+  },
+  "bin": {
+    "mcp-sqlserver": "dist/index.js"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "ROADMAP.md",
+    "LICENSE",
+    ".env.example"
+  ],
+  "license": "Apache-2.0",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
     "dotenv": "^16.0.0",

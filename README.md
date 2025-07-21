@@ -36,26 +36,25 @@ A Model Context Protocol (MCP) server that enables AI agents to interact with Mi
 
 ### Installation
 
-1. Clone the repository:
+#### Option 1: NPX (Recommended)
+```bash
+# No installation required - run directly
+npx @bilims/mcp-sqlserver
+```
+
+#### Option 2: Global Installation
+```bash
+npm install -g @bilims/mcp-sqlserver
+mcp-sqlserver
+```
+
+#### Option 3: From Source
 ```bash
 git clone https://github.com/bilims/mcp-sqlserver.git
 cd mcp-sqlserver
-```
-
-2. Install dependencies:
-```bash
 npm install
-```
-
-3. Configure environment variables:
-```bash
-cp .env.example .env
-# Edit .env with your SQL Server configuration
-```
-
-4. Build the project:
-```bash
 npm run build
+npm start
 ```
 
 ### Configuration
@@ -83,6 +82,36 @@ SQLSERVER_REQUEST_TIMEOUT=15000
 
 Add to your Claude Desktop MCP settings (`claude_desktop_config.json`):
 
+#### Option 1: Using NPX (Recommended)
+```json
+{
+  "mcpServers": {
+    "mcp-sqlserver": {
+      "command": "npx",
+      "args": ["-y", "@bilims/mcp-sqlserver"],
+      "env": {
+        "SQLSERVER_HOST": "your-server-host",
+        "SQLSERVER_DATABASE": "your-database",
+        "SQLSERVER_USERNAME": "your-username",
+        "SQLSERVER_PASSWORD": "your-password"
+      }
+    }
+  }
+}
+```
+
+#### Option 2: Global Installation
+```json
+{
+  "mcpServers": {
+    "mcp-sqlserver": {
+      "command": "mcp-sqlserver"
+    }
+  }
+}
+```
+
+#### Option 3: From Source
 ```json
 {
   "mcpServers": {
@@ -94,6 +123,8 @@ Add to your Claude Desktop MCP settings (`claude_desktop_config.json`):
   }
 }
 ```
+
+**Note**: For options 2 and 3, create a `.env` file in the appropriate directory with your SQL Server configuration.
 
 ## 🛠 Available Tools
 
