@@ -281,4 +281,4 @@ For support, feature requests, or bug reports, please [open an issue](https://gi
 
 ---
 
-**⚡ Ready to supercharge your SQL Server operations with AI? Get started today!**
+**⚡ Ready to supercharge your SQL Server operations with AI? Get started today!**<!-- Force push fix -->
