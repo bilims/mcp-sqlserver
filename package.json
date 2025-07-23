@@ -25,7 +25,7 @@
   "author": "Bilims",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bilims/mcp-sqlserver.git"
+    "url": "git+https://github.com/bilims/mcp-sqlserver.git"
   },
   "homepage": "https://github.com/bilims/mcp-sqlserver",
   "bugs": {
