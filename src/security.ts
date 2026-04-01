@@ -26,6 +26,13 @@ export class QueryValidator {
     'GRANT',
     'REVOKE',
     'DENY',
+    'RESTORE',
+    'BACKUP',
+    'WRITETEXT',
+    'UPDATETEXT',
+    'RECONFIGURE',
+    'RENAME',
+    'UPSERT',
   ];
 
   static validateQuery(query: string): { isValid: boolean; error?: string } {
