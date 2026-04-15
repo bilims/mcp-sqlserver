@@ -149,6 +149,26 @@ export class ParameterValidator {
     return result;
   }
 
+  // Validate table stats parameters
+  static validateTableStatsParameters(params: { table_name?: string; schema?: string }): {
+    table_name?: string;
+    schema?: string;
+  } {
+    const result: { table_name?: string; schema?: string } = {};
+
+    if (params.schema) {
+      result.schema = this.validateSchemaName(params.schema);
+    } else {
+      result.schema = 'dbo'; // Default schema
+    }
+
+    if (params.table_name) {
+      result.table_name = this.validateTableName(params.table_name);
+    }
+
+    return result;
+  }
+
   // Validate list tables parameters
   static validateListTablesParameters(params: { schema?: string }): {
     schema?: string;

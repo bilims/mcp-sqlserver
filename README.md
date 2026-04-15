@@ -240,6 +240,33 @@ Add to your Claude Desktop configuration (`claude_desktop_config.json`):
 
 ### Claude Code CLI
 
+#### Windows
+
+Add the following to `%USERPROFILE%\.claude.json`:
+
+```json
+{
+  "mcpServers": {
+    "sqlserver": {
+      "command": "mcp-sqlserver",
+      "env": {
+        "SQLSERVER_HOST": "your-server",
+        "SQLSERVER_USER": "your-username",
+        "SQLSERVER_PASSWORD": "your-password",
+        "SQLSERVER_DATABASE": "your-database",
+        "SQLSERVER_PORT": "1433",
+        "SQLSERVER_ENCRYPT": "true",
+        "SQLSERVER_TRUST_CERT": "false"
+      }
+    }
+  }
+}
+```
+
+#### macOS/Linux
+
+Add the server using the Claude Code CLI:
+
 ```bash
 # Set environment variables
 export SQLSERVER_HOST="your-server"
@@ -248,6 +275,27 @@ export SQLSERVER_PASSWORD="your-password"
 
 # Use with Claude Code
 claude mcp add sqlserver mcp-sqlserver
+```
+
+Or configure via `~/.claude.json`:
+
+```json
+{
+  "mcpServers": {
+    "sqlserver": {
+      "command": "mcp-sqlserver",
+      "env": {
+        "SQLSERVER_HOST": "your-server",
+        "SQLSERVER_USER": "your-username",
+        "SQLSERVER_PASSWORD": "your-password",
+        "SQLSERVER_DATABASE": "your-database",
+        "SQLSERVER_PORT": "1433",
+        "SQLSERVER_ENCRYPT": "true",
+        "SQLSERVER_TRUST_CERT": "false"
+      }
+    }
+  }
+}
 ```
 
 ### VSCode with MCP Extension
@@ -325,12 +373,35 @@ npm test
 ## Troubleshooting
 
 ### Connection Issues
+
+Use the `--test-connection` flag to diagnose connectivity problems:
+
+```bash
+# Test your connection (shows detailed diagnostics)
+mcp-sqlserver --test-connection
+# or use the short flag
+mcp-sqlserver -t
+```
+
+The command provides helpful error suggestions based on the error type:
+
+| Error Type | Likely Cause | Suggested Fix |
+|------------|-------------|---------------|
+| `ENOTFOUND` / Server not found | Incorrect hostname | Check `SQLSERVER_HOST` |
+| Login failed (18456) | Wrong username/password | Verify credentials |
+| Timeout | Server unreachable or wrong port | Check port (default: 1433) |
+| SSL/Certificate error | Self-signed certificate | Set `SQLSERVER_TRUST_CERT=true` |
+| Connection refused | Firewall or SQL Server not running | Check server is running |
+
+### Before Troubleshooting
+
 1. Verify server hostname and port
 2. Check if encryption/certificate settings match your SQL Server configuration
 3. Ensure user has appropriate read permissions
 4. Test connection using SQL Server Management Studio first
 
 ### Permission Issues
+
 The user account needs at minimum:
 - `CONNECT` permission to the database
 - `SELECT` permission on tables/views you want to query

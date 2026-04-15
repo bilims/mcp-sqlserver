@@ -147,7 +147,7 @@ async function runServer() {
           // Don't connect immediately in MCP mode - defer connection until first tool use
           // This prevents the server from failing startup if SQL Server is temporarily unavailable
           console.error(`MCP SQL Server initialized for ${config.server}:${config.port || 1433}`);
-          console.error(`Database: ${config.database || 'default'}, User: ${config.user}`);
+          console.error(`Database: ${config.database || 'default'}`);
           
           this.initializeTools(config.maxRows || 1000);
         } catch (error) {

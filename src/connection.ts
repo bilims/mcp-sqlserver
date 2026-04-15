@@ -68,6 +68,9 @@ export class SqlServerConnection {
   }
 
   getConfig(): Readonly<ConnectionConfig> {
-    return { ...this.config };
+    // Return config with password redacted for security
+    const redactedConfig = { ...this.config };
+    redactedConfig.password = '********';
+    return redactedConfig;
   }
 }
