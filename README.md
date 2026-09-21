@@ -177,6 +177,33 @@ The server is configured using environment variables:
 - `SQLSERVER_CONNECTION_TIMEOUT` - Connection timeout in ms (default: 30000)
 - `SQLSERVER_REQUEST_TIMEOUT` - Request timeout in ms (default: 60000)
 - `SQLSERVER_MAX_ROWS` - Maximum rows per query (default: 1000)
+- `SQLSERVER_SESSION_CONTEXT` - JSON object applied to every query as `SESSION_CONTEXT` (see [Row-Level Security](#row-level-security))
+- `SQLSERVER_SESSION_CONTEXT_READONLY` - Lock session context keys against modification (default: true)
+
+### Row-Level Security
+
+Databases that use Row-Level Security often scope rows by tenant or user through
+`SESSION_CONTEXT()` rather than by login, because the application connects with a
+single shared account. Set `SQLSERVER_SESSION_CONTEXT` to a JSON object and every
+query runs with that context applied:
+
+```bash
+export SQLSERVER_SESSION_CONTEXT='{"TenantId":42,"UserRole":"auditor"}'
+```
+
+Values may be strings or numbers; numbers are bound as `int` so predicates
+comparing against integer columns work without a `CONVERT`.
+
+The context is set in the same batch as each query. `SESSION_CONTEXT` is
+connection-scoped and queries run through a pool, so setting it in a separate
+round trip would apply it to an arbitrary connection.
+
+Keys are locked with `@read_only = 1` by default, so a query cannot widen its own
+scope even if it were to reach the server with the context already established.
+Because read-only keys are released only when a connection resets, changing a
+value at runtime requires `SqlServerConnection.resetSessionContext()`, which
+recycles the pool. Set `SQLSERVER_SESSION_CONTEXT_READONLY=false` to allow keys
+to be overwritten in place instead.
 
 ## Usage
 

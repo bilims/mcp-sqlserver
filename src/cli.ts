@@ -17,6 +17,8 @@ ENVIRONMENT VARIABLES:
   SQLSERVER_PORT      Port number (optional, default: 1433)
   SQLSERVER_ENCRYPT   Enable encryption (optional, default: true)
   SQLSERVER_TRUST_CERT Trust server certificate (optional, default: true)
+  SQLSERVER_SESSION_CONTEXT  JSON object set as SESSION_CONTEXT on every
+                      query, for Row-Level Security (optional)
 
 EXAMPLES:
   # Set environment variables and run

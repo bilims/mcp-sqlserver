@@ -13,7 +13,7 @@ async function runServer() {
       ListToolsRequestSchema,
     } = await import('@modelcontextprotocol/sdk/types.js');
     const { SqlServerConnection } = await import('./connection.js');
-    const { ConnectionConfigSchema } = await import('./types.js');
+    const { ConnectionConfigSchema, parseSessionContext } = await import('./types.js');
     const {
       ListDatabasesTool,
       ListTablesTool,
@@ -169,6 +169,18 @@ async function runServer() {
         return;
       }
 
+      // Parsed ahead of the config object so a malformed value reports itself
+      // rather than surfacing as an opaque startup failure.
+      let sessionContext;
+      try {
+        sessionContext = parseSessionContext(process.env.SQLSERVER_SESSION_CONTEXT);
+      } catch (error) {
+        console.error(
+          `Invalid configuration: ${error instanceof Error ? error.message : error}`
+        );
+        process.exit(1);
+      }
+
       // Read configuration from environment variables
       const config = {
         server: process.env.SQLSERVER_HOST || 'localhost',
@@ -181,6 +193,9 @@ async function runServer() {
         connectionTimeout: parseInt(process.env.SQLSERVER_CONNECTION_TIMEOUT || '30000'),
         requestTimeout: parseInt(process.env.SQLSERVER_REQUEST_TIMEOUT || '60000'),
         maxRows: parseInt(process.env.SQLSERVER_MAX_ROWS || '1000'),
+        sessionContext,
+        sessionContextReadOnly:
+          process.env.SQLSERVER_SESSION_CONTEXT_READONLY !== 'false',
       };
 
       // Validate configuration
