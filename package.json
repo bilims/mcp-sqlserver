@@ -23,7 +23,7 @@
     "setup": "npm run build && echo 'Setup complete! See README.md for configuration instructions.'",
     "test-connection": "node dist/index.js --help || echo 'Please set environment variables. See README.md for details.'",
     "lint": "eslint src/**/*.ts",
-    "test": "jest"
+    "test": "tsx --test test/*.test.ts"
   },
   "keywords": [
     "mcp",
