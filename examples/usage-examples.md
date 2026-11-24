@@ -496,10 +496,10 @@ Tool execution failed: Database query failed: Invalid object name 'NonExistentTa
 
 ## Security Best Practices
 
-- All queries are automatically validated for read-only operations
+- All queries are automatically validated for read-only operations (unless `SQLSERVER_UNSAFE_NONCE` is set)
 - Row limits are enforced to prevent memory issues
 - Connection timeouts prevent hanging queries
-- Only SELECT-based operations are allowed
+- Only SELECT-based operations are allowed by default; `SQLSERVER_UNSAFE_NONCE=i_sure_know_what_i_am_doing` disables all validation
 - SQL injection patterns are detected and blocked
 
 ## Integration Examples

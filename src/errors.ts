@@ -209,6 +209,7 @@ export class ErrorHandler {
           'Only read-only SELECT queries are allowed',
           'Remove any INSERT, UPDATE, DELETE, or DDL statements',
           'Check for potentially dangerous keywords in your query',
+          'To allow any query, set SQLSERVER_UNSAFE_NONCE=i_sure_know_what_i_am_doing (disables ALL query validation)',
         ];
         break;
       

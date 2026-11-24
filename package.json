@@ -1,7 +1,7 @@
 {
   "name": "@bilims/mcp-sqlserver",
   "version": "2.0.3",
-  "description": "A read-only Model Context Protocol (MCP) server for Microsoft SQL Server that enables AI agents to safely explore and query SQL Server databases",
+  "description": "A Model Context Protocol (MCP) server for Microsoft SQL Server that enables AI agents to explore and query SQL Server databases. Read-only by default; set SQLSERVER_UNSAFE_NONCE to allow any query.",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
