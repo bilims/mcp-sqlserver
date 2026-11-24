@@ -28,11 +28,21 @@ export class QueryValidator {
     'DENY',
   ];
 
+  // Explicit opt-out (issue #9), DFM_NONCE-style: requires the exact acknowledgment value
+  static isUnsafeMode(): boolean {
+    return process.env.SQLSERVER_UNSAFE_NONCE === 'i_sure_know_what_i_am_doing';
+  }
+
   static validateQuery(query: string): { isValid: boolean; error?: string } {
     const normalizedQuery = query.trim().toUpperCase();
 
     if (!normalizedQuery) {
       return { isValid: false, error: 'Empty query not allowed' };
+    }
+
+    if (this.isUnsafeMode()) {
+      console.warn('WARNING: SQLSERVER_UNSAFE_NONCE is set - query security validation is DISABLED');
+      return { isValid: true };
     }
 
     // Check if query starts with allowed statement

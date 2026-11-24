@@ -2,6 +2,7 @@ import { BaseTool } from './base.js';
 import { QueryResult } from '../types.js';
 import { ParameterValidator } from '../validation.js';
 import { ErrorHandler } from '../errors.js';
+import { QueryValidator } from '../security.js';
 
 export class ExecuteQueryTool extends BaseTool {
   getName(): string {
@@ -9,7 +10,9 @@ export class ExecuteQueryTool extends BaseTool {
   }
 
   getDescription(): string {
-    return 'Execute a read-only SELECT query against the database';
+    return QueryValidator.isUnsafeMode()
+      ? 'Execute ANY SQL query against the database (SELECT, INSERT, UPDATE, DELETE, DDL, EXEC...). Security validation is DISABLED via SQLSERVER_UNSAFE_NONCE.'
+      : 'Execute a read-only SELECT query against the database';
   }
 
   getInputSchema(): any {
@@ -18,7 +21,9 @@ export class ExecuteQueryTool extends BaseTool {
       properties: {
         query: {
           type: 'string',
-          description: 'SQL SELECT query to execute (read-only operations only)',
+          description: QueryValidator.isUnsafeMode()
+            ? 'SQL query to execute (any statement allowed; security validation disabled via SQLSERVER_UNSAFE_NONCE)'
+            : 'SQL SELECT query to execute (read-only operations only)',
         },
         limit: {
           type: 'number',

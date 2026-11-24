@@ -91,7 +91,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 
 ## 🔒 Security Features
 
-✅ **Read-only operations only**  
+✅ **Read-only by default** (set `SQLSERVER_UNSAFE_NONCE=i_sure_know_what_i_am_doing` to allow any query)  
 ✅ **SQL injection protection**  
 ✅ **Query validation**  
 ✅ **Encrypted connections**  

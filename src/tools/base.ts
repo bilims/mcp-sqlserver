@@ -21,7 +21,7 @@ export abstract class BaseTool {
     const limitedQuery = QueryValidator.addRowLimit(sanitizedQuery, this.maxRows);
 
     const result = await this.connection.query<T>(limitedQuery);
-    return result.recordset;
+    return result.recordset ?? []; // DDL/DML batches return no recordset
   }
 
   protected async executeSafeQuery<T = any>(query: string): Promise<T[]> {

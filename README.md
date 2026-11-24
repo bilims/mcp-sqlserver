@@ -1,6 +1,6 @@
 # MCP SQL Server
 
-A read-only Model Context Protocol (MCP) server for Microsoft SQL Server that enables AI agents to safely explore and query SQL Server databases.
+A Model Context Protocol (MCP) server for Microsoft SQL Server that enables AI agents to explore and query SQL Server databases. Read-only by default; an explicit opt-in (`SQLSERVER_UNSAFE_NONCE`) allows any query.
 
 ## Quick Start
 
@@ -96,7 +96,7 @@ Try these commands in Claude Desktop:
 
 ## Features
 
-- **🔒 Read-only operations**: Only SELECT queries allowed, with comprehensive security validation
+- **🔒 Read-only by default**: Only SELECT queries allowed, with comprehensive security validation (set `SQLSERVER_UNSAFE_NONCE` to allow any query)
 - **🗄️ Schema discovery**: Explore databases, tables, views, relationships, and metadata  
 - **📊 Data exploration**: Execute safe queries with built-in limits and timeouts
 - **🔐 Enterprise-ready**: Encrypted connections with certificate trust for production environments
@@ -115,7 +115,7 @@ Try these commands in Claude Desktop:
 - `get_table_stats` - Get table statistics including row counts and size information
 
 ### Data Exploration  
-- `execute_query` - Execute read-only SELECT queries with safety validation
+- `execute_query` - Execute SQL queries: read-only SELECT with safety validation by default, ANY statement when `SQLSERVER_UNSAFE_NONCE` is set
 - `get_server_info` - Get SQL Server version, edition, and configuration details
 
 ## Common Commands for Claude Desktop
@@ -177,6 +177,7 @@ The server is configured using environment variables:
 - `SQLSERVER_CONNECTION_TIMEOUT` - Connection timeout in ms (default: 30000)
 - `SQLSERVER_REQUEST_TIMEOUT` - Request timeout in ms (default: 60000)
 - `SQLSERVER_MAX_ROWS` - Maximum rows per query (default: 1000)
+- `SQLSERVER_UNSAFE_NONCE` - Set to `i_sure_know_what_i_am_doing` to disable query security validation and allow ANY query (INSERT/UPDATE/DELETE/DDL/EXEC...). ⚠️ Use only with a database account whose permissions you trust; by default only read-only queries are allowed.
 
 ## Usage
 
@@ -257,6 +258,7 @@ Install the MCP extension for VSCode and add the server configuration.
 ## Security Features
 
 ### Query Validation
+All checks below apply by default and are **fully bypassed** when `SQLSERVER_UNSAFE_NONCE=i_sure_know_what_i_am_doing` is set (explicit opt-in).
 - Only SELECT, WITH, SHOW, DESCRIBE, and EXPLAIN statements allowed
 - Comprehensive blacklist of dangerous keywords (INSERT, UPDATE, DELETE, DROP, etc.)
 - SQL injection pattern detection
